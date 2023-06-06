@@ -1,7 +1,7 @@
 # TODO: Change the name of the org 
 org: svenson
-app: serverless-todo-app
-service: serverless-todo-app
+app: serverless2-todo-app
+service: serverless2-todo-app
 
 plugins:
   - serverless-webpack
@@ -9,6 +9,8 @@ plugins:
   - serverless-plugin-tracing
   - serverless-reqvalidator-plugin
   - serverless-aws-documentation
+  - serverless-deployment-bucket
+
 
 provider:
   name: aws
@@ -27,7 +29,8 @@ provider:
   environment:
     TODOS_TABLE: Todos-${self:provider.stage}
     TODOS_CREATED_AT_INDEX: CreatedAtIndex
-    ATTACHMENT_S3_BUCKET: serverless-c4-todo-images-${self:provider.stage}
+    #bucket name must be world-wide unique
+    ATTACHMENT_S3_BUCKET: svo-attch-serverless-c4-todo-images-${self:provider.stage}
     SIGNED_URL_EXPIRATION: 300
 
   logs:
@@ -43,6 +46,9 @@ provider:
             - xray:PutTraceSegments
           Resource: "*"
 
+  deploymentBucket:
+    name: svenson-custom-deployment-bucket
+    serverSideEncryption: AES256
 
 functions:
 
@@ -149,7 +155,7 @@ functions:
       - Effect: Allow
         Action:
           - s3:*
-        Resource: arn:aws:s3:::${self:provider.environment.ATTACHMENT_S3_BUCKET}/*
+        Resource: !GetAtt AttachmentsBucket.Arn
       - Effect: Allow
         Action:
           - dynamodb:Query
@@ -215,6 +221,9 @@ resources:
       Type: AWS::S3::Bucket
       Properties:
         BucketName: ${self:provider.environment.ATTACHMENT_S3_BUCKET}
+        OwnershipControls:
+          Rules:
+            - ObjectOwnership: ObjectWriter
         CorsConfiguration:
           CorsRules:
             -

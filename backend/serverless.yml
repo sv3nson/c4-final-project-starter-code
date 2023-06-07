@@ -30,7 +30,7 @@ provider:
     TODOS_TABLE: Todos-${self:provider.stage}
     TODOS_CREATED_AT_INDEX: CreatedAtIndex
     #bucket name must be world-wide unique
-    ATTACHMENT_S3_BUCKET: svo-attch-serverless-c4-todo-images-${self:provider.stage}
+    ATTACHMENT_S3_BUCKET: svo-attachment-serverless-c4-todo-images-${self:provider.stage}
     SIGNED_URL_EXPIRATION: 300
 
   logs:
@@ -245,7 +245,7 @@ resources:
       Type: AWS::S3::BucketPolicy
       Properties:
         PolicyDocument:
-          Id: MyPolicy
+          Id: svo-attachment-serverless-c4-todo-images-Policy
           Version: "2012-10-17"
           Statement:
             - Sid: PublicReadForGetBucketObjects

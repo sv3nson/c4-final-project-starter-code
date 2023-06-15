@@ -10,6 +10,12 @@ plugins:
   - serverless-reqvalidator-plugin
   - serverless-aws-documentation
 
+custom:
+  documentation:
+    api:
+      info:
+        version: "1.0.0"
+        title: "Udacity Serverless Backend Project"
 
 provider:
   name: aws

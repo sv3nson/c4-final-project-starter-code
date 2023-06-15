@@ -60,13 +60,13 @@ async function verifyToken(authHeader: string): Promise<JwtPayload> {
 
   const res = await Axios.get(jwksUrl);
   const keys = res.data.keys.find(key => key.kid === jwt.header.kid);
-  
-  if(!keys){
+
+  if (!keys) {
     throw new Error('Error getting signing keys');
   }
 
-  const certificate = '-----BEGIN CERTIFICATE-----\n'+keys.x5c[0]+'\n-----END CERTIFICATE-----';
-  return verify(token,certificate,{algorithms: ['RS256']}) as JwtPayload
+  const certificate = '-----BEGIN CERTIFICATE-----\n' + keys.x5c[0] + '\n-----END CERTIFICATE-----';
+  return verify(token, certificate, { algorithms: ['RS256'] }) as JwtPayload
 }
 
 function getToken(authHeader: string): string {

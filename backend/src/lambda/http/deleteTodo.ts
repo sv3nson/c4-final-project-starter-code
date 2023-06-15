@@ -17,8 +17,8 @@ export const handler = middy(
       userId
     )
     return {
-      statusCode:204,
-      body:''
+      statusCode: 204,
+      body: ''
     }
   }
 )

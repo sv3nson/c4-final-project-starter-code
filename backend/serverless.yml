@@ -15,7 +15,15 @@ custom:
     api:
       info:
         version: "1.0.0"
-        title: "Udacity Serverless Backend Project"
+        title: "Udacity Serverless TODO Project"
+        description: "A Udacity Serverless TODO Project"
+    models:
+      - name: CreateTodoRequest
+        contentType: application/json
+        schema: ${file(models/create-todo-model.json)}
+      - name: UpdateTodoRequest
+        contentType: application/json
+        schema: ${file(models/update-todo-model.json)}
 
 provider:
   name: aws
@@ -160,12 +168,13 @@ functions:
     iamRoleStatements:
       - Effect: Allow
         Action:
-          - s3:*
+          - s3:PutObject
+          - s3:GetObject
         Resource: !GetAtt AttachmentsBucket.Arn
       - Effect: Allow
         Action:
-          - dynamodb:Query
-          - dynamodb:PutItem
+          - dynamodb:GetItem
+          - dynamodb:UpdateItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}
 
 resources:

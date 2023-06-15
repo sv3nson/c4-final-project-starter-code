@@ -22,25 +22,31 @@ export async function createTodo(
         userId,
         todoId,
         createdAt,
-        done:false,
-        attachmentUrl:s3Url,
+        done: false,
+        attachmentUrl: s3Url,
         ...newTodo
     }
     return await todoAccess.createTodoItem(newItem)
 }
 
-export async function getTodosForUser(userId:string): Promise<TodoItem[]>{
+export async function getTodosForUser(userId: string): Promise<TodoItem[]> {
     return todoAccess.getAllTodos(userId)
 }
 
-export async function updateTodo(todoId:string,todoUpdate:UpdateTodoRequest,userId:string):Promise<TodoUpdate>{
-    return await todoAccess.updateTodoItem(todoId,userId,todoUpdate)
+export async function updateTodo(todoId: string, todoUpdate: UpdateTodoRequest, userId: string): Promise<TodoUpdate> {
+    return await todoAccess.updateTodoItem(todoId, userId, todoUpdate)
 }
 
-export async function deleteTodo(todoId:string,userId:string,) : Promise<string>{
-    return await todoAccess.deleteTodoItem(todoId,userId)
+export async function deleteTodo(todoId: string, userId: string,): Promise<string> {
+    return await todoAccess.deleteTodoItem(todoId, userId)
 }
 
-export async function createAttachmentPresignedUrl(todoId:string): Promise<string>{
+export async function createAttachmentPresignedUrl(todoId: string): Promise<string> {
     return attachmentUtils.getUploadUrl(todoId)
 }
+
+export async function updateTodoAttachmentUrl(userId: string, todoId: string, attachmentUrl: string) {
+    return todoAccess.updateTodoAttachmentUrl(todoId, userId, attachmentUrl)
+}
+
+

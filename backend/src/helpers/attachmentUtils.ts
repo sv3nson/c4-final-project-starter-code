@@ -13,14 +13,14 @@ export class AttachmentUtils {
         private readonly bucketname = s3Bucket
     ) { }
 
-    getAttachmentUrl(todoId: string) {
-        return `https://${this.bucketname}.s3.amazonaws.com/${todoId}`
+    getAttachmentUrl(key: string) {
+        return `https://${this.bucketname}.s3.amazonaws.com/${key}`
     }
 
-    getUploadUrl(todoId: string) {
+    getUploadUrl(key: string) {
         return this.s3.getSignedUrl('putObject', {
             Bucket: this.bucketname,
-            Key: todoId,
+            Key: key,
             Expires: urlExpiration
         }) as string
     }

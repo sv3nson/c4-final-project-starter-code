@@ -173,8 +173,10 @@ functions:
         Resource: !GetAtt AttachmentsBucket.Arn
       - Effect: Allow
         Action:
+          - dynamodb:Query
           - dynamodb:GetItem
           - dynamodb:UpdateItem
+          - dynamodb:PutItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}
 
 resources:

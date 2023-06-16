@@ -10,10 +10,13 @@ import { createAttachmentPresignedUrl, updateTodoAttachmentUrl } from '../../biz
 export const handler = middy(
   async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
     const todoId = event.pathParameters.todoId
-    // TODO: Return a presigned URL to upload a file for a TODO item with the provided id
-    const url = await createAttachmentPresignedUrl(todoId)
     const userId = getUserId(event)
-    await updateTodoAttachmentUrl(userId, todoId, url)
+    const s3Bucket = process.env.ATTACHMENT_S3_BUCKET
+    // TODO: Return a presigned URL to upload a file for a TODO item with the provided id
+    const key = todoId + "_" + userId
+    const url = await createAttachmentPresignedUrl(key)
+    
+    await updateTodoAttachmentUrl(userId, todoId, `https://${s3Bucket}.s3.amazonaws.com/${key}`)
 
 
     return {

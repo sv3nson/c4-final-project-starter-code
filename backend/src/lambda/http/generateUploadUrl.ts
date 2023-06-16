@@ -18,7 +18,6 @@ export const handler = middy(
     
     await updateTodoAttachmentUrl(userId, todoId, `https://${s3Bucket}.s3.amazonaws.com/${key}`)
 
-
     return {
       statusCode: 201,
       body: JSON.stringify({

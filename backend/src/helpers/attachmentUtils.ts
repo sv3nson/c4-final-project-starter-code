@@ -18,10 +18,12 @@ export class AttachmentUtils {
     }
 
     getUploadUrl(key: string) {
-        return this.s3.getSignedUrl('putObject', {
+        const params = {
             Bucket: this.bucketname,
             Key: key,
             Expires: urlExpiration
-        }) as string
+        }
+        const signedUrl = this.s3.getSignedUrl('putObject', params);
+        return signedUrl
     }
 }
